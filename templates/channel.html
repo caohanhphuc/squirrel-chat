@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Squirrel Chat</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="../static/table/images/icons/favicon.ico"/>
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/vendor/animsition/css/animsition.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/table/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../static/table/css/table.css">
+	<link rel="stylesheet" type="text/css" href="../static/channel/css/channel.css">
+	<!--===============================================================================================-->
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+
+				<div class="table100 ver2 m-b-110">
+					<table data-vertable="ver2">
+						<thead>
+							<tr class="row100 head">
+								<th class="column100 column1" data-column="column1">Chat Window #{{channel_name}}</th>
+								<th class="column100 column2" data-column="column2">Members</th>
+								<th class="column100 column3" data-column="column3">File Window</th>
+							</tr>
+						</thead>
+
+						<tbody id="table_body">
+							<tr class="row100">
+								<td class="column100 column1" data-column="column1">
+									<div class="chat_window">
+										<div class="top_menu">
+											<div class="title">channel: #{{channel_name}} @user: {{user}}
+											</div>
+										</div>
+										<ul class="messages">
+										</ul>
+									</div>
+								</td>
+
+								<td>
+									<div id="member_list"></div>
+								</td>
+
+								<td class="column100 column3" data-column="column2">
+								<div id="file_list">
+								</div>
+								
+
+						
+								</td>
+							</tr>
+
+							<tr class="row100">
+								<td class="column100 column1" data-column="column1">
+									<a href="/"><button>Home</button></a>
+									<a href="/logout"><button>Log Out</button></a>
+									<button id="change_topic_btn">Change Topic </button>
+								</td>
+
+								<td>
+									<button id="ban_user_btn">Ban User</button>
+									<button id="add_admin_btn">Add Admin</button>
+								</td>
+
+								<td class="column100 column2" data-column="column2">
+									<div align="left"><p> Upload files to channel #{{channel_name}}: </p> </div>
+
+									<!-- <div> <input type="file" id="myFile" multiple size="50" onchange="myFunction()"> <button> Upload </button>
+									</div>
+									<p id="demo"></p>
+ -->							
+									<form method="POST" enctype=multipart/form-data action="/upload_file">
+								      <input type="file" name="file">
+								      <div style="display:none;"><input type="text" name="channel_name" value="#{{channel_name}}"></div>
+								      <button type="submit">Upload</button>
+    								</form>
+
+    								
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div id="channel_name" style="display: none;">{{channel_name}}</div>
+		</div>
+		<div class="message_template">
+			<li class="message">
+				<div class="avatar"></div>
+				<div class="text_wrapper"><div class="text">
+					Hi there!!</div></div>
+				</li>
+			</div>
+		</div>
+
+
+		<div id="ban_modal" class="modal">
+			<div class="container-contact100">
+				<div class="wrap-contact100">
+					<form class="contact100-form validate-form-1" id="form" method="POST" name="ban_user" action="/ban_user">
+						<span class="contact100-form-title">
+							Ban User:
+						</span><br>
+
+						<div class="wrap-input100 validate-input-1" data-validate="Required">
+							<input class="input100" type="text" name="username" placeholder="Username">
+							<span class="focus-input100-1"></span>
+							<span class="focus-input100-2"></span>
+						</div>
+
+						<div style="display:none;"><input name="channel_name" style="display: none;" value={{channel_name}}></div>
+						
+						<div class="container-contact100-form-btn">
+							<button class="contact100-form-btn" type="submit" formaction="/ban_user">
+								Submit
+							</button>
+							<button class="contact100-form-btn" onClick=closeBanModal() type="button">Close
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div id="admin_modal" class="modal">
+			<div class="container-contact100">
+				<div class="wrap-contact100">
+					<form class="contact100-form validate-form-2" id="form" method="POST" name="add_admin" action="/add_admin">
+						<span class="contact100-form-title">
+							Add user to admin list:
+						</span><br>
+
+						<div class="wrap-input100 validate-input-2" data-validate="Required">
+							<input class="input100" type="text" name="username" placeholder="Username">
+							<span class="focus-input100-1"></span>
+							<span class="focus-input100-2"></span>
+						</div>
+
+						<div style="display:none;"><input name="channel_name" style="display: none;" value={{channel_name}}></div>
+						<div class="container-contact100-form-btn">
+							<button class="contact100-form-btn" type="submit" formaction="/add_admin">
+								Submit
+							</button>
+							<button class="contact100-form-btn" onClick=closeAdminModal() type="button">Close
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div id="topic_modal" class="modal">
+			<div class="container-contact100">
+				<div class="wrap-contact100">
+					<form class="contact100-form validate-form-3" id="form" method="POST" name="add_admin" action="/change_topic">
+						<span class="contact100-form-title">
+							Change channel topic:
+						</span><br>
+
+						<div class="wrap-input100 validate-input-3" data-validate="Required">
+							<input class="input100" type="text" name="new_topic" placeholder="New topic">
+							<span class="focus-input100-1"></span>
+							<span class="focus-input100-2"></span>
+						</div>
+
+						<div style="display:none;"><input name="channel_name" style="display: none;" value={{channel_name}}></div>
+						<div class="container-contact100-form-btn">
+							<button class="contact100-form-btn" type="submit" formaction="/change_topic">
+								Submit
+							</button>
+							<button class="contact100-form-btn" onClick=closeTopicModal() type="button">Close
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+		<ul class=flashes>
+			{% for category, message in messages %}
+			<script> 
+				alert("{{message}}"); 
+			</script>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}		
+
+		<!--===============================================================================================-->
+		<script src="../static/table/vendor/jquery/jquery-3.2.1.min.js"></script><!--===============================================================================================-->
+		<script src="../static/table/vendor/animsition/js/animsition.min.js"></script>
+		<!--===============================================================================================-->
+		<script src="../static/table/vendor/bootstrap/js/popper.js"></script>
+		<script src="../static/table/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<!--===============================================================================================-->
+		<script src="../static/table/vendor/select2/select2.min.js"></script>
+		<!--===============================================================================================-->
+		<script src="../static/channel/js/channel.js"></script>
+
+	</body>
+	</html>

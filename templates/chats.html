@@ -1,0 +1,56 @@
+<html>
+<head>
+  <title>SquirrelChat</title>
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/channel/css/channel.css" rel="stylesheet" id="bootstrap-css">
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="static/channel/js/channel.js"></script>
+</head>
+<body>
+  <a href="/logout">Logout</a>
+  <input type="hidden" id="uid" value="{{uid}}">
+  <div style="width: 400px; margin: 80px auto; ">
+    <table style="width=100%">
+      <tr>
+        <td class="cell_one">
+          <div class="chat_window">
+            <div class="top_menu">
+              <div class="buttons">
+                <div class="button close"></div>
+                <div class="button minimize"></div>
+                <div class="button maximize"></div>
+              </div>
+              <div class="title">Chat (Logged in as @{{user}})</div>
+            </div>
+
+            <ul class="messages"></ul>
+            <div class="bottom_wrapper clearfix">
+              <div class="message_input_wrapper">
+                <input class="message_input" placeholder="Type your message here..." /></div>
+                <div class="send_message">
+                  <div class="icon"></div>
+                  <div class="text">Send</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        <td> 
+        <div class="file_list">
+          <p> bz </p>
+        </div>
+        </td>
+        </tr>
+      </table>
+      
+      <div class="message_template">
+        <li class="message">
+          <div class="avatar"></div>
+          <div class="text_wrapper"><div class="text">
+            Hi there!!</div></div>
+          </li>
+        </div>
+      </div>
+
+    </body>
+    </html>
